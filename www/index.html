@@ -41,7 +41,44 @@
         </style>
     </head>
     <body>
-        <iframe src="http://www.miniportale.it/mm/q/"></iframe>
+        <!-- we do not care about cookies since our cookie js system bypass iframe setting cookie automatically -->
+        <script type="text/javascript">              
+            function createIframe(l) {
+                var lFull = l.toLowerCase();
+                var lShort = navigator.language.split("-");
+                lShort = (lShort[0]).toLowerCase();
+                
+                var langs = ["br","ru","pt","it","fr","es","en","de","us"];
+
+                // special cases
+                if (lFull=="en-us")
+                    lShort="us";
+                
+                if (lFull=="pt-br")
+                    lShort="br";
+
+                // if language is not supported, then fallback to english
+                if (langs.indexOf(lShort)<0) 
+                    lShort="en";
+
+                url="http://www.newspapersrss.com/m/"+lShort+"/";
+
+                ifrm = document.createElement("iframe");
+                ifrm.setAttribute("src", url);
+                document.body.appendChild(ifrm);
+            }
+            
+            var l = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
+            createIframe(l);
+            
+            /* // alternative phonegap api
+               navigator.globalization.getPreferredLanguage(
+                 createIframe,
+                 function () {alert('Error getting language\n');}
+               );
+            */
+            
+        </script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script>
